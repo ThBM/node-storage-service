@@ -1,8 +1,8 @@
 {
-  "name": "storage-service",
+  "name": "node-storage-service",
   "version": "0.0.1",
   "description": "Simple utility in order to store file either locally or other strategy",
-  "main": "index.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "./node_modules/.bin/tsc",
@@ -23,5 +23,21 @@
   },
   "dependencies": {
     "aws-sdk": "^2.633.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThBM/node-storage-service.git"
+  },
+  "keywords": [
+    "nodejs",
+    "npm",
+    "storage",
+    "filesystem",
+    "s3",
+    "encryption"
+  ],
+  "bugs": {
+    "url": "https://github.com/ThBM/node-storage-service/issues"
+  },
+  "homepage": "https://github.com/ThBM/node-storage-service#readme"
 }
