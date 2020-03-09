@@ -5,7 +5,7 @@ import {AES256EncryptionStrategy} from "../..";
 import fs from "fs";
 import crypto from "crypto";
 
-const dir = __dirname + "/../../var/files";
+const dir = __dirname + "/../../../var/files";
 const localStorageStrategy = new LocalStorageStrategy(dir);
 
 const key = crypto.randomBytes(32);

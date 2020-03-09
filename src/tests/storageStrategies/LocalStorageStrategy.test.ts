@@ -3,7 +3,7 @@ import {StorageService} from "../..";
 import {LocalStorageStrategy} from "../..";
 import fs from "fs";
 
-const dir = __dirname + "/../../var/files";
+const dir = __dirname + "/../../../var/files";
 const localStorageStrategy = new LocalStorageStrategy(dir);
 const storageService = new StorageService(localStorageStrategy);
 const testFile1 = Buffer.from("Hello world!", "utf8");
