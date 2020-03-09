@@ -1,6 +1,6 @@
 {
   "name": "node-storage-service",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple utility in order to store file either locally or other strategy",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
