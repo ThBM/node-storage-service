@@ -1,6 +1,6 @@
 {
   "name": "node-storage-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple service in order to store file either locally or other strategy which support encryption.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
