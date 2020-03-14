@@ -17,6 +17,12 @@ describe('LocalStorageStrategy', function() {
             .then(result => chai.expect(result.toString()).equal(testFile1.toString()));
     });
 
+    it('should store the file in local storage and create folder', function() {
+        return storageService.put("some/directory/test.txt", testFile1)
+          .then(_ => fs.promises.readFile(dir + "/some/directory/test.txt"))
+          .then(result => chai.expect(result.toString()).equal(testFile1.toString()));
+    });
+
     it('should replace existing file', function() {
         return storageService.put("test.txt", testFile2)
             .then(_ => fs.promises.readFile(dir + "/test.txt"))
