@@ -34,6 +34,14 @@ describe('LocalStorageStrategy', function() {
             .then(result => chai.expect(result.toString()).equal(testFile2.toString()));
     });
 
+    it('should list all files with prefix', async function () {
+        await storageService.put("some/test.txt", testFile1);
+        await storageService.put("some/other/very/long/test.txt", testFile1);
+
+        return storageService.list("some")
+            .then(files => chai.expect(files).to.eql(["some/directory/test.txt", "some/other/very/long/test.txt", "some/test.txt"]))
+    });
+
     it('should delete file', function() {
         return storageService.delete("test.txt")
             .then(_ => fs.access(dir + "/test.txt", err => chai.expect(err).not.null))

@@ -43,6 +43,17 @@ describe('S3StorageStrategy', function() {
             })
     });
 
+    it('should store the file in S3 and create folder', function() {
+        return storageService.put("some/directory/test.txt", testFile1)
+            .then(_ => new Promise<Buffer>((resolve, reject) => s3.getObject({Bucket: options.bucket, Key: "some/directory/test.txt"}, (err, data) => {
+                if(err) return reject(err);
+                return resolve(data.Body as Buffer);
+            })))
+            .then(result => {
+                chai.expect(result.toString()).equal(testFile1.toString());
+            })
+    });
+
     it('should replace existing file', function() {
         return storageService.put("test.txt", testFile2)
             .then(_ => new Promise<Buffer>((resolve, reject) => s3.getObject({Bucket: options.bucket, Key: "test.txt"}, (err, data) => {
@@ -57,6 +68,14 @@ describe('S3StorageStrategy', function() {
     it('should get file content', function () {
         return storageService.get("test.txt")
             .then(result => chai.expect(result.toString()).equal(testFile2.toString()))
+    });
+
+    it('should list all files with prefix', async function () {
+        await storageService.put("some/test.txt", testFile1);
+        await storageService.put("some/other/very/long/test.txt", testFile1);
+
+        return storageService.list("some")
+            .then(files => chai.expect(files).to.eql(["some/directory/test.txt", "some/other/very/long/test.txt", "some/test.txt"]))
     });
 
     it('should delete file', function() {

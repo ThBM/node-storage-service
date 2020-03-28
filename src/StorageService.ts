@@ -28,4 +28,8 @@ export class StorageService {
     public delete(key: string) {
         return this.storageStrategy.delete(key);
     }
+
+    public list(prefix: string) {
+        return this.storageStrategy.list(prefix);
+    }
 }

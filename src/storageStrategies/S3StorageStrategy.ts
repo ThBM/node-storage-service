@@ -34,6 +34,18 @@ export class S3StorageStrategy implements StorageStrategyInterface {
             })
         })
     }
+
+    list(prefix: string): Promise<string[]> {
+        return new Promise((resolve, reject) => {
+            this.s3.listObjects({Bucket: this.bucket, Prefix: prefix}, (err, data) => {
+                if (err) return reject(err);
+                if (!data.Contents) return resolve([]);
+                const list = data.Contents.map(object => object.Key).filter(item => item !== undefined) as string[];
+                return resolve(list);
+            })
+        })
+    }
+
     put(key: string, content: Buffer): Promise<void> {
         return new Promise(((resolve, reject) => {
             this.s3.putObject({Key: key, Body: content, Bucket: this.bucket}, (err) => {

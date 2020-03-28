@@ -23,6 +23,21 @@ export class LocalStorageStrategy implements StorageStrategyInterface {
         return fs.promises.writeFile(this.getFilepath(key), content);
     }
 
+    list(prefix: string): Promise<string[]> {
+      return fs.promises.readdir(this.getFilepath(prefix), {withFileTypes: true})
+        .then(async items => {
+            const files = [];
+            for (let item of items) {
+                if(item.isDirectory()) {
+                    files.push(...await this.list(path.join(prefix, item.name)));
+                } else {
+                    files.push(path.join(prefix, item.name));
+                }
+            }
+            return files;
+        })
+    }
+
     private async createDirectory(key: string) {
         const splitKey = key.split("/");
         splitKey.pop();
