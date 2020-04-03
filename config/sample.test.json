@@ -1,0 +1,22 @@
+{
+  "local": {
+    "dir": "/var/files"
+  },
+  "azure": {
+    "config": {
+      "account": "account",
+      "accountKey": "accountKey"
+    },
+    "container": "container"
+  },
+  "s3": {
+    "config": {
+      "accessKeyId": "minioadmin",
+      "secretAccessKey": "minioadmin",
+      "endpoint": "http://127.0.0.1:9000",
+      "s3ForcePathStyle": true,
+      "signatureVersion": "v4"
+    },
+    "bucket": "test"
+  }
+}
