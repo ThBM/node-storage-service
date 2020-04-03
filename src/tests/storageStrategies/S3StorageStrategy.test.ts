@@ -1,16 +1,11 @@
 import chai from "chai";
 import {StorageService} from "../..";
 import {S3StorageStrategy} from "../..";
+const config = require("../../../config/config.test.json");
 
 const options = {
-    awsConfig: {
-        accessKeyId: 'minioadmin' ,
-        secretAccessKey: 'minioadmin' ,
-        endpoint: 'http://127.0.0.1:9000' ,
-        s3ForcePathStyle: true,
-        signatureVersion: 'v4'
-    },
-    bucket: "test"
+    awsConfig: config.s3.config,
+    bucket: config.s3.bucket
 };
 const s3StorageStrategy = new S3StorageStrategy(options);
 
@@ -22,13 +17,7 @@ const testFile2 = Buffer.from("Hello world! It's me.", "utf8");
 import AWS from 'aws-sdk';
 
 AWS.config.update({region: "us-west-2"});
-var s3  = new AWS.S3({
-    accessKeyId: 'minioadmin' ,
-    secretAccessKey: 'minioadmin' ,
-    endpoint: 'http://127.0.0.1:9000' ,
-    s3ForcePathStyle: true, // needed with minio?
-    signatureVersion: 'v4'
-});
+var s3  = new AWS.S3(config.s3.config);
 
 describe('S3StorageStrategy', function() {
 

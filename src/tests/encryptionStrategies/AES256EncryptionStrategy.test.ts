@@ -4,8 +4,10 @@ import {LocalStorageStrategy} from "../..";
 import {AES256EncryptionStrategy} from "../..";
 import fs from "fs";
 import crypto from "crypto";
+import path from "path";
+const config = require("../../../config/config.test.json");
 
-const dir = __dirname + "/../../../var/files";
+const dir = path.join(__dirname , "../../..", config.local.dir);
 const localStorageStrategy = new LocalStorageStrategy(dir);
 
 const key = crypto.randomBytes(32);

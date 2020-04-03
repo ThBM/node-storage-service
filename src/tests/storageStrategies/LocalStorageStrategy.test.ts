@@ -2,8 +2,10 @@ import chai from "chai";
 import {StorageService} from "../..";
 import {LocalStorageStrategy} from "../..";
 import fs from "fs";
+import path from "path";
+const config = require("../../../config/config.test.json");
 
-const dir = __dirname + "/../../../var/files";
+const dir = path.join(__dirname , "../../..", config.local.dir);
 const localStorageStrategy = new LocalStorageStrategy(dir);
 const storageService = new StorageService(localStorageStrategy);
 const testFile1 = Buffer.from("Hello world!", "utf8");
