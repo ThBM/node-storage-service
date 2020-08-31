@@ -5,6 +5,7 @@ import {BlobServiceClient, StorageSharedKeyCredential} from "@azure/storage-blob
 const config = require("../../../config/config.test.json");
 
 const options = {
+    url: config.azure.config.url,
     account: config.azure.config.account,
     accountKey: config.azure.config.accountKey,
     container: config.azure.container
@@ -12,7 +13,7 @@ const options = {
 
 
 const blobServiceClient = new BlobServiceClient(
-  `https://${options.account}.blob.core.windows.net`,
+  options.url,
   new StorageSharedKeyCredential(options.account, options.accountKey)
 );
 const containerClient = blobServiceClient.getContainerClient(options.container);

@@ -3,6 +3,7 @@ import {StorageStrategyInterface} from "./StorageStrategyInterface";
 
 
 interface AzureBlobStorageStrategyOptions {
+  url: string // https://${options.account}.blob.core.windows.net
   account: string
   accountKey: string
   container: string
@@ -14,7 +15,7 @@ export class AzureBlobStorageStrategy implements StorageStrategyInterface {
 
   constructor(options: AzureBlobStorageStrategyOptions) {
     const blobServiceClient = new BlobServiceClient(
-      `https://${options.account}.blob.core.windows.net`,
+      options.url,
       new StorageSharedKeyCredential(options.account, options.accountKey)
     );
     this.containerClient = blobServiceClient.getContainerClient(options.container);
