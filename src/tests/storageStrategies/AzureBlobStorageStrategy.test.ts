@@ -26,6 +26,18 @@ const testFile2 = Buffer.from("Hello world! It's me.", "utf8");
 
 describe('AzureBlobStorageStrategy', function() {
 
+    before(async () => {
+        //Recreate container
+        const containers = blobServiceClient.listContainers();
+        for await (const container of containers) {
+            if (container.name === options.container) {
+                await containerClient.delete();
+                await containerClient.create();
+                break;
+            }
+        }
+    })
+
     it('should store the file', function() {
         return storageService.put("test.txt", testFile1)
             .then(_ => {

@@ -21,6 +21,24 @@ var s3  = new AWS.S3(config.s3.config);
 
 describe('S3StorageStrategy', function() {
 
+    before(done => {
+        //Empty bucket
+        let params = {Bucket: options.bucket, Prefix: "/"};
+        s3.listObjects(params, (err, data) => {
+            if (err) throw err;
+            if (data.Contents!.length == 0) done();
+
+            const Objects = data.Contents!.map(o => ({Key: o.Key!}));
+            s3.deleteObjects({
+                Bucket: options.bucket,
+                Delete: {Objects}
+            }, err => {
+                if (err) throw err;
+                done();
+            })
+        })
+    })
+
     it('should store the file in S3', function() {
         return storageService.put("test.txt", testFile1)
             .then(_ => new Promise<Buffer>((resolve, reject) => s3.getObject({Bucket: options.bucket, Key: "test.txt"}, (err, data) => {

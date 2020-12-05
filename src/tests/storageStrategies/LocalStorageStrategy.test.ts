@@ -13,6 +13,14 @@ const testFile2 = Buffer.from("Hello world! It's me.", "utf8");
 
 describe('LocalStorageStrategy', function() {
 
+    before(async () => {
+        const exists = await fs.existsSync(dir);
+        if(exists) {
+            await fs.promises.rmdir(dir, {recursive: true});
+        }
+        await fs.promises.mkdir(dir, {recursive: true});
+    })
+
     it('should store the file in local storage', function() {
         return storageService.put("test.txt", testFile1)
             .then(_ => fs.promises.readFile(dir + "/test.txt"))
