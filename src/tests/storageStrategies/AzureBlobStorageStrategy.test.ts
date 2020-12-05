@@ -38,10 +38,10 @@ describe('AzureBlobStorageStrategy', function() {
         for await (const container of containers) {
             if (container.name === options.container) {
                 await containerClient.delete();
-                await containerClient.create();
                 break;
             }
         }
+        await containerClient.create();
     })
 
     it('should store the file', function() {
