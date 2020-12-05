@@ -32,4 +32,18 @@ export class StorageService {
     public list(prefix: string) {
         return this.storageStrategy.list(prefix);
     }
+
+    public getStream(key: string) {
+        if (!this.storageStrategy.getStream) throw new Error("getStream not supported for this storage strategy.");
+        if (this.encryptionStrategy !== undefined) throw new Error("Streams are not supported with encryption.")
+
+        return this.storageStrategy.getStream(key);
+    }
+
+    public putStream(key: string) {
+        if (!this.storageStrategy.putStream) throw new Error("putStream not supported for this storage strategy.");
+        if (this.encryptionStrategy !== undefined) throw new Error("Streams are not supported with encryption.")
+
+        return this.storageStrategy.putStream(key);
+    }
 }

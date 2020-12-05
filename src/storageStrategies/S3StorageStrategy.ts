@@ -1,5 +1,6 @@
 import {StorageStrategyInterface} from "./StorageStrategyInterface";
 import {S3} from 'aws-sdk';
+import { PassThrough } from "stream";
 
 
 interface S3StorageStrategyOptions {
@@ -54,5 +55,18 @@ export class S3StorageStrategy implements StorageStrategyInterface {
             })
         }))
     };
+
+    async getStream(key: string): Promise<NodeJS.ReadableStream> {
+        return this.s3.getObject({ Bucket: this.bucket, Key: key }).createReadStream()
+    }
+
+    async putStream(key: string): Promise<NodeJS.WritableStream> {
+        const stream = new PassThrough({emitClose: false})
+        this.s3.upload({ Key: key, Body: stream, Bucket: this.bucket }, (err, data) => {
+            if (err) throw err;
+            stream.emit("close");
+        })
+        return stream;
+    }
 
 }

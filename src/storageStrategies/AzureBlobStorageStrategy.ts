@@ -1,4 +1,5 @@
 import {BlobServiceClient, StorageSharedKeyCredential, ContainerClient} from "@azure/storage-blob"
+import { PassThrough } from "stream";
 import {StorageStrategyInterface} from "./StorageStrategyInterface";
 
 
@@ -46,4 +47,18 @@ export class AzureBlobStorageStrategy implements StorageStrategyInterface {
     await blockBlobClient.upload(content, content.length);
   };
 
+  async getStream(key: string): Promise<NodeJS.ReadableStream> {
+    const blockBlobClient = this.containerClient.getBlockBlobClient(key);
+    const download = await blockBlobClient.download();
+    if(!download.readableStreamBody) throw "File not found";
+
+    return download.readableStreamBody
+  }
+
+  async putStream(key: string): Promise<NodeJS.WritableStream> {
+    const stream = new PassThrough({emitClose: false})
+    this.containerClient.getBlockBlobClient(key).uploadStream(stream)
+    .then(() => stream.emit("close"));
+    return stream;
+  }
 }

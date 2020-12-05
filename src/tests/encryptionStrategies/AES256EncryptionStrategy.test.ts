@@ -32,4 +32,8 @@ describe('AES256EncryptionStrategy', function() {
             .then(result => chai.expect(result.toString(), testFile1.toString()));
     });
 
+    it('should not work with read and write stream', async function () {
+        chai.expect(() => storageService.getStream("longText.txt")).to.throw()
+        chai.expect(() => storageService.putStream("longText.txt")).to.throw()
+    });
 });

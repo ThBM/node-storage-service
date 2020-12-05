@@ -13,6 +13,12 @@ const storageService = new StorageService(s3StorageStrategy);
 const testFile1 = Buffer.from("Hello world!", "utf8");
 const testFile2 = Buffer.from("Hello world! It's me.", "utf8");
 
+var text = ""
+for (let i = 0; i < 1e6; i++) {
+    text += "Hello world\n";
+}
+const testFileLong = Buffer.from(text, "utf8");
+
 
 import AWS from 'aws-sdk';
 
@@ -92,5 +98,23 @@ describe('S3StorageStrategy', function() {
                     return resolve();
                 })))
     });
+
+    it('should work with read and write stream', async function () {
+        await storageService.put("longText.txt", testFileLong)
+        const readStream = await storageService.getStream("longText.txt");
+        const writeStream = await storageService.putStream("copyLongText.txt")
+        readStream.pipe(writeStream);
+        return await new Promise((resolve, reject) => {
+            writeStream.on('close', async () => {
+                const data = await storageService.get("copyLongText.txt")
+                try {
+                    chai.expect(data.toString()).equal(testFileLong.toString());
+                } catch (e) {
+                    reject(e)
+                }
+                resolve()
+            })
+        })
+    }).timeout(5000);
 
 });

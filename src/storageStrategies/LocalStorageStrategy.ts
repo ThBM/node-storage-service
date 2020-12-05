@@ -50,4 +50,12 @@ export class LocalStorageStrategy implements StorageStrategyInterface {
     private getFilepath(key: string): string {
         return path.join(this.dir, key);
     }
+
+    async getStream(key: string): Promise<NodeJS.ReadableStream> {
+        return fs.createReadStream(this.getFilepath(key));
+    }
+
+    async putStream(key: string): Promise<NodeJS.WritableStream> {
+        return fs.createWriteStream(this.getFilepath(key));
+    }
 }
