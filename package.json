@@ -22,7 +22,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.3.0",
+    "@azure/storage-blob": "^12.8.0",
     "aws-sdk": "^2.804.0"
   },
   "repository": {
